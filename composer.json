@@ -1,0 +1,14 @@
+{
+    "name": "vlabs/notification-bundle",
+    "license": "proprietary",
+    "type": "symfony-bundle",
+    "autoload": {
+        "psr-4": {
+            "Vlabs\\NotificationBundle\\": ""
+        }
+    },
+    "require": {
+        "php": ">=5.3.9",
+        "symfony/symfony": "3.*"
+    }
+}
