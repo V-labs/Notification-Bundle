@@ -7,14 +7,12 @@
     <services>
 
         <service id="vlabs_notification.manager.notifications" class="Vlabs\NotificationBundle\Manager\NotificationManager">
-            <argument type="expression">service('doctrine').getRepository('VlabsNotificationBundle:Notification')</argument>
             <argument type="service" id="vlabs_notification.factory.message" />
             <argument type="service" id="vlabs_notification.notifier.resolver" />
         </service>
 
         <service id="vlabs_notification.factory.message" class="Vlabs\NotificationBundle\Factory\MessageFactory">
             <argument type="service" id="templating" />
-            <argument type="string">%vendor_name%</argument>
         </service>
 
         <service id="vlabs_notification.notifier.resolver" class="Vlabs\NotificationBundle\Resolver\NotifierResolver" />
@@ -27,7 +25,6 @@
 
         <service id="vlabs_notification.notifier.rms_push" class="Vlabs\NotificationBundle\Notifier\RmsPushNotifier">
             <argument type="service" id="rms_push_notifications"/>
-            <argument type="service" id="monolog.logger.notifications" />
             <tag name="vlabs_notification.notifier" />
         </service>
 

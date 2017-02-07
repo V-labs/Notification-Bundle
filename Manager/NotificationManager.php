@@ -12,11 +12,6 @@ use Vlabs\NotificationBundle\VO\NotificationConfig;
 class NotificationManager
 {
     /**
-     * @var NotificationRepository
-     */
-    private $notificationRepository;
-
-    /**
      * @var MessageFactory
      */
     private $messageFactory;
@@ -27,11 +22,9 @@ class NotificationManager
     private $notifierResolver;
 
     public function __construct(
-        NotificationRepository $notificationRepository,
         MessageFactory $messageFactory,
         NotifierResolver $notifierResolver
     ) {
-        $this->notificationRepository   = $notificationRepository;
         $this->messageFactory           = $messageFactory;
         $this->notifierResolver = $notifierResolver;
     }

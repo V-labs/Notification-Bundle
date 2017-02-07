@@ -2,43 +2,33 @@
 
 namespace Vlabs\NotificationBundle\Factory;
 
-use Vlabs\NotificationBundle\MessageInterface;
 use Vlabs\NotificationBundle\VO\NotificationConfig;
 use Symfony\Component\Templating\EngineInterface;
 
 class MessageFactory
 {
     /**
-     * @var string
-     */
-    protected $vendorName;
-
-    /**
      * @var EngineInterface
      */
     protected $templating;
 
-    public function __construct(EngineInterface $templating, $vendorName)
+    public function __construct(EngineInterface $templating)
     {
         $this->templating = $templating;
-        $this->vendorName = $vendorName;
     }
 
     /**
      * @param NotificationConfig $config
-     * @return MessageInterface
+     * @return object
      */
     public function createFromConfig(NotificationConfig $config)
     {
         $action = $config->getAction();
         $type = $config->getType();
 
-        $actionParts = explode('_', $action);
         $camelizedAction = $this->camelize($action);
 
-        $classNS = sprintf('%s\%sBundle\Notification\%s\%s',
-            ucfirst($this->vendorName),
-            ucfirst($actionParts[0]),
+        $classNS = sprintf('AppBundle\Notification\%s\%s',
             ucfirst($type),
             $camelizedAction
         );
