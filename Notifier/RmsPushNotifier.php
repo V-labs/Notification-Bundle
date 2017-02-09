@@ -3,6 +3,7 @@
 namespace Vlabs\NotificationBundle\Notifier;
 
 use Vlabs\NotificationBundle\Constant\DeviceConstant;
+use Vlabs\NotificationBundle\DeviceInterface;
 use Vlabs\NotificationBundle\Message\MessageInterface;
 use RMS\PushNotificationsBundle\Message\AndroidMessage;
 use RMS\PushNotificationsBundle\Message\iOSMessage;
@@ -27,7 +28,7 @@ class RmsPushNotifier implements NotifierInterface
      */
     public function addToQueue(MessageInterface $message)
     {
-        /** @var Device $device */
+        /** @var DeviceInterface $device */
         foreach($message->getTo() as $device)
         {
             $rmsMessage = $this->getRmsMessage($device);
@@ -40,10 +41,10 @@ class RmsPushNotifier implements NotifierInterface
     }
 
     /**
-     * @param DeviceConstant $device
+     * @param DeviceInterface $device
      * @return null|AndroidMessage|iOSMessage
      */
-    private function getRmsMessage(DeviceConstant $device)
+    private function getRmsMessage(DeviceInterface $device)
     {
         switch ($device->getOs()) {
 
