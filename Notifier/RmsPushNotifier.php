@@ -57,6 +57,7 @@ class RmsPushNotifier implements NotifierInterface
             case DeviceConstant::OS_IOS:
                 $msg = new iOSMessage();
                 $msg->setAPSSound('default');
+                $msg->setAPSBadge($device->getUser()->getPushNotRead());
                 return $msg;
 
         }
