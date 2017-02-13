@@ -35,6 +35,7 @@ class RmsPushNotifier implements NotifierInterface
 
             $rmsMessage->setDeviceIdentifier($device->getToken());
             $rmsMessage->setMessage($message->getBody());
+            $rmsMessage->setData($message->getData());
 
             $this->rmsNotifier->send($rmsMessage);
         }

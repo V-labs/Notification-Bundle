@@ -59,4 +59,9 @@ interface MessageInterface
      * @return mixed
      */
     public function getSubject();
+
+    /**
+     * @return array
+     */
+    public function getData();
 }

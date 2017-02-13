@@ -38,6 +38,11 @@ abstract class AbstractMessage implements MessageInterface
      */
     protected $body;
 
+    /**
+     * @var array
+     */
+    protected $data;
+
     public function __construct(NotificationConfig $config, EngineInterface $templating)
     {
         $this->config = $config;
@@ -72,5 +77,10 @@ abstract class AbstractMessage implements MessageInterface
     public function getSubject()
     {
         return $this->subject;
+    }
+
+    public function getData()
+    {
+        return $this->data;
     }
 }
