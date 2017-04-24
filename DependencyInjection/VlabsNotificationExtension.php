@@ -4,6 +4,7 @@ namespace Vlabs\NotificationBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
+use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader;
 
@@ -24,5 +25,12 @@ class VlabsNotificationExtension extends Extension
 
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.xml');
+
+        if(isset($config['push']) && $container->has('vlabs_notification.notifier.rms_push'))
+        {
+            /** @var Definition $definition */
+            $definition = $container->findDefinition('vlabs_notification.notifier.rms_push');
+            $definition->addMethodCall('setConfig', $config['push']);
+        }
     }
 }

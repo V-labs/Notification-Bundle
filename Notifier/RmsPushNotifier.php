@@ -18,6 +18,15 @@ class RmsPushNotifier implements NotifierInterface
      */
     private $rmsNotifier;
 
+    /**
+     * @var array
+     */
+    private $config = [];
+
+    /**
+     * RmsPushNotifier constructor.
+     * @param Notifications $rmsNotifier
+     */
     public function __construct(Notifications $rmsNotifier)
     {
         $this->rmsNotifier = $rmsNotifier;
@@ -50,14 +59,24 @@ class RmsPushNotifier implements NotifierInterface
         switch ($device->getOs()) {
 
             case DeviceConstant::OS_ANDROID:
+
                 $msg = new AndroidMessage();
-                $msg->setGCM(true);
+                $msg->setFCM(true);
+
+                if(isset($this->config['gcm']) && $this->config['gcm'] === true)
+                {
+                    $msg->setFCM(false);
+                    $msg->setGCM(true);
+                }
+
                 return $msg;
 
             case DeviceConstant::OS_IOS:
+
                 $msg = new iOSMessage();
                 $msg->setAPSSound('default');
                 $msg->setAPSBadge($device->getUser()->getPushNotRead());
+
                 return $msg;
 
         }
@@ -71,5 +90,13 @@ class RmsPushNotifier implements NotifierInterface
     public function getType()
     {
         return self::PUSH_TYPE;
+    }
+
+    /**
+     * @param array $config
+     */
+    public function setConfig(array $config)
+    {
+        $this->config = $config;
     }
 }
