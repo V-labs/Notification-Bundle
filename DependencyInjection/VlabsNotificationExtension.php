@@ -32,5 +32,12 @@ class VlabsNotificationExtension extends Extension
             $definition = $container->findDefinition('vlabs_notification.notifier.rms_push');
             $definition->addMethodCall('setConfig', $config['push']);
         }
+
+        if(isset($config['sms']) && $container->has('vlabs_notification.notifier.ovh_sms'))
+        {
+            /** @var Definition $definition */
+            $definition = $container->findDefinition('vlabs_notification.notifier.ovh_sms');
+            $definition->addMethodCall('setConfig', $config);
+        }
     }
 }

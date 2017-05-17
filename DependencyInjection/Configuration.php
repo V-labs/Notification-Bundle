@@ -29,6 +29,13 @@ class Configuration implements ConfigurationInterface
                         ->end()
                     ->end()
                 ->end()
+                ->arrayNode('sms')
+                    ->children()
+                        ->scalarNode('app_key')->end()
+                        ->scalarNode('app_secret')->end()
+                        ->scalarNode('consumer_key')->end()
+                    ->end()
+                ->end()
             ->end()
         ;
 

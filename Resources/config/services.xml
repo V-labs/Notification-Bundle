@@ -28,5 +28,9 @@
             <tag name="vlabs_notification.notifier" />
         </service>
 
+        <service id="vlabs_notification.notifier.ovh_sms" class="Vlabs\NotificationBundle\Notifier\OvhSmsNotifier">
+            <tag name="vlabs_notification.notifier" />
+        </service>
+
     </services>
 </container>
