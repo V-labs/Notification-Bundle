@@ -10,7 +10,7 @@
     "require": {
         "php": ">=5.3.9",
         "symfony/symfony": "3.*",
-        "ovh/php-ovh-sms": "1.1.*"
+        "ovh/php-ovh-sms": "1.1"
     },
     "repositories": [
         {
