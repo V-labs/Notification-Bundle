@@ -10,6 +10,12 @@
     "require": {
         "php": ">=5.3.9",
         "symfony/symfony": "3.*",
-        "ovh/php-ovh-sms": "1.0"
-    }
+        "ovh/php-ovh-sms": "1.1.*"
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/V-labs/php-ovh-sms"
+        }
+    ]
 }
