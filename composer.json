@@ -15,7 +15,7 @@
     "repositories": [
         {
             "type": "vcs",
-            "url": "https://github.com/V-labs/php-ovh-sms"
+            "url": "https://github.com/V-labs/php-ovh-sms.git"
         }
     ]
 }
