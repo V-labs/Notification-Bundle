@@ -4,6 +4,7 @@ namespace Vlabs\NotificationBundle\Notifier;
 
 use Vlabs\NotificationBundle\Constant\DeviceConstant;
 use Vlabs\NotificationBundle\DeviceInterface;
+use Vlabs\NotificationBundle\Message\AbstractMessage;
 use Vlabs\NotificationBundle\Message\MessageInterface;
 use RMS\PushNotificationsBundle\Message\AndroidMessage;
 use RMS\PushNotificationsBundle\Message\iOSMessage;
@@ -40,7 +41,7 @@ class RmsPushNotifier implements NotifierInterface
         /** @var DeviceInterface $device */
         foreach($message->getTo() as $device)
         {
-            $rmsMessage = $this->getRmsMessage($device);
+            $rmsMessage = $this->getRmsMessage($device, $message);
 
             $rmsMessage->setDeviceIdentifier($device->getToken());
             $rmsMessage->setMessage($message->getBody());
@@ -52,21 +53,24 @@ class RmsPushNotifier implements NotifierInterface
 
     /**
      * @param DeviceInterface $device
+     * @param AbstractMessage $message
      * @return null|AndroidMessage|iOSMessage
      */
-    private function getRmsMessage(DeviceInterface $device)
+    private function getRmsMessage(DeviceInterface $device, MessageInterface $message)
     {
         switch ($device->getOs()) {
 
             case DeviceConstant::OS_ANDROID:
 
                 $msg = new AndroidMessage();
-                $msg->setFCM(true);
 
                 if(isset($this->config['gcm']) && $this->config['gcm'] === true)
                 {
-                    $msg->setFCM(false);
                     $msg->setGCM(true);
+                    $msg->setGCMOptions($message->getGCMOptions());
+                }else{
+                    $msg->setFCM(true);
+                    $msg->setFCMOptions($message->getFCMOptions());
                 }
 
                 return $msg;

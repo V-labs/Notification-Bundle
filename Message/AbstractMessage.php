@@ -43,6 +43,16 @@ abstract class AbstractMessage implements MessageInterface
      */
     protected $data;
 
+    /**
+     * @var array
+     */
+    protected $fcmOptions;
+
+    /**
+     * @var array
+     */
+    protected $gcmOptions;
+
     public function __construct(NotificationConfig $config, EngineInterface $templating)
     {
         $this->config = $config;
@@ -82,5 +92,15 @@ abstract class AbstractMessage implements MessageInterface
     public function getData()
     {
         return $this->data;
+    }
+
+    public function getFCMOptions()
+    {
+        return $this->fcmOptions;
+    }
+
+    public function getGCMOptions()
+    {
+        return $this->gcmOptions;
     }
 }
