@@ -36,7 +36,7 @@ class MessageFactory
 
         $camelizedAction = $this->camelize($action);
 
-        $classNS = sprintf('AppBundle\Notification\%s\%s',
+        $classNS = sprintf('App\Notification\%s\%s',
             ucfirst($type),
             $camelizedAction
         );
