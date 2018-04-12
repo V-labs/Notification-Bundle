@@ -37,7 +37,7 @@ class VlabsNotificationExtension extends Extension
         {
             /** @var Definition $definition */
             $definition = $container->findDefinition('vlabs_notification.notifier.ovh_sms');
-            $definition->addMethodCall('setConfig', $config);
+            //$definition->addMethodCall('setConfig', $config);
         }
 
         if(isset($config['slack']) && $container->has('vlabs_notification.notifier.slack'))

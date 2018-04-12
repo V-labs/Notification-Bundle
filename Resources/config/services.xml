@@ -31,6 +31,13 @@
 
         <service id="vlabs_notification.notifier.ovh_sms" class="Vlabs\NotificationBundle\Notifier\OvhSmsNotifier">
             <tag name="vlabs_notification.notifier" />
+            <call method="setConfig">
+                <argument type="collection">
+                    <argument key="app_key">%sms_app_key%</argument>
+                    <argument key="app_secret">%sms_app_secret%</argument>
+                    <argument key="consumer_key">%sms_consumer_key%</argument>
+                </argument>
+            </call>
         </service>
 
         <service id="vlabs_notification.notifier.slack" class="Vlabs\NotificationBundle\Notifier\SlackNotifier">
