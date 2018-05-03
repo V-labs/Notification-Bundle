@@ -64,4 +64,13 @@ interface MessageInterface
      * @return array
      */
     public function getData();
+
+    /**
+     * array of attachments
+     *
+     * attachment = ['filename' => $filename, 'content' => $content]
+     *
+     * @return array
+     */
+    public function getAttachments();
 }

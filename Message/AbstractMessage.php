@@ -53,6 +53,11 @@ abstract class AbstractMessage implements MessageInterface
      */
     protected $gcmOptions;
 
+    /**
+     * @var array
+     */
+    protected $attachments;
+
     public function __construct(NotificationConfig $config, EngineInterface $templating)
     {
         $this->config = $config;
@@ -102,5 +107,10 @@ abstract class AbstractMessage implements MessageInterface
     public function getGCMOptions()
     {
         return $this->gcmOptions;
+    }
+
+    public function getAttachments()
+    {
+        return $this->attachments;
     }
 }

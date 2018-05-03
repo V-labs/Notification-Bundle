@@ -35,6 +35,14 @@ class SwiftMailerNotifier implements NotifierInterface
             ->setTo($message->getTo())
             ->setBody($message->getBody(), 'text/html');
 
+        /** @var array $attachment */
+        foreach ($message->getAttachments() as $attachment)
+        {
+            $swiftAttachment = new \Swift_Attachment($attachment['content'], $attachment['filename']);
+
+            $email->attach($swiftAttachment);
+        }
+
         $this->mailer->send($email);
     }
 
