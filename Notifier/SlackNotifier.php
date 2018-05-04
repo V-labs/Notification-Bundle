@@ -16,20 +16,6 @@ class SlackNotifier implements NotifierInterface
     private $config = [];
 
     /**
-     * @var string|null
-     */
-    private $endpoint = null;
-
-    /**
-     * SlackNotifier constructor.
-     * @param $endpoint
-     */
-    public function __construct($endpoint)
-    {
-        $this->endpoint = $endpoint;
-    }
-
-    /**
      * @param MessageInterface $message
      */
     public function addToQueue(MessageInterface $message)
@@ -42,7 +28,7 @@ class SlackNotifier implements NotifierInterface
      */
     private function send(MessageInterface $message)
     {
-        $slackClient = new SlackClient($this->endpoint);
+        $slackClient = new SlackClient($this->config['app_endpoint']);
         $slackClient->send($message->getBody());
     }
 
