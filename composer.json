@@ -11,7 +11,7 @@
         "php": ">=5.3.9",
         "symfony/symfony": ">=3.0.0",
         "ovh/php-ovh-sms": "1.1",
-        "nexylan/slack": "^1.7"
+        "nexylan/slack": ">=1.7"
     },
     "repositories": [
         {
