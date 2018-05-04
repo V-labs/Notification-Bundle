@@ -1,4 +1,5 @@
-OVH SMS notifications is now handled by this bundle, from the 1.2.0 version
+OVH SMS notifications is now handled by this bundle, from the 1.2.0 version.
+
 In your config.yml
 ```yaml
 vlabs_notification:
@@ -16,4 +17,13 @@ In your config.yml
 vlabs_notification:
     push:
         gcm: true
+```
+
+Slack message is now handled by this bundle, from the 1.2.4 version.
+
+In your config.yml
+```yaml
+vlabs_notification:
+    slack:
+        app_endpoint: "https://hooks.slack.com/services/changeme"
 ```
