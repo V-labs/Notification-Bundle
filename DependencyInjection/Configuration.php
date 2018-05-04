@@ -36,6 +36,11 @@ class Configuration implements ConfigurationInterface
                         ->scalarNode('consumer_key')->end()
                     ->end()
                 ->end()
+                ->arrayNode('slack')
+                    ->children()
+                        ->scalarNode('app_endpoint')->end()
+                    ->end()
+                ->end()
             ->end()
         ;
 
