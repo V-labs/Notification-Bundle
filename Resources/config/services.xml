@@ -32,5 +32,9 @@
             <tag name="vlabs_notification.notifier" />
         </service>
 
+        <service id="vlabs_notification.notifier.slack" class="Vlabs\NotificationBundle\Notifier\SlackNotifier">
+            <tag name="vlabs_notification.notifier" />
+        </service>
+
     </services>
 </container>
