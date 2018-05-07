@@ -3,6 +3,7 @@
 namespace Vlabs\NotificationBundle\Message;
 
 use Vlabs\NotificationBundle\Entity\Notification;
+use Vlabs\NotificationBundle\Exception\MessageDoesNotSupportAttachments;
 use Vlabs\NotificationBundle\VO\NotificationConfig;
 use Symfony\Component\Templating\EngineInterface;
 
@@ -52,11 +53,6 @@ abstract class AbstractMessage implements MessageInterface
      * @var array
      */
     protected $gcmOptions;
-
-    /**
-     * @var array
-     */
-    protected $attachments;
 
     public function __construct(NotificationConfig $config, EngineInterface $templating)
     {
@@ -111,6 +107,6 @@ abstract class AbstractMessage implements MessageInterface
 
     public function getAttachments()
     {
-        return $this->attachments;
+        throw new MessageDoesNotSupportAttachments();
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Vlabs\NotificationBundle\Notifier;
 
+use Vlabs\NotificationBundle\Exception\MessageDoesNotSupportAttachments;
 use Vlabs\NotificationBundle\Message\MessageInterface;
 
 class SwiftMailerNotifier implements NotifierInterface
@@ -35,12 +36,18 @@ class SwiftMailerNotifier implements NotifierInterface
             ->setTo($message->getTo())
             ->setBody($message->getBody(), 'text/html');
 
-        /** @var array $attachment */
-        foreach ($message->getAttachments() as $attachment)
-        {
-            $swiftAttachment = new \Swift_Attachment($attachment['content'], $attachment['filename']);
+        try{
+            $attachments = $message->getAttachments();
 
-            $email->attach($swiftAttachment);
+            /** @var array $attachment */
+            foreach ($attachments as $attachment)
+            {
+                $swiftAttachment = new \Swift_Attachment($attachment['content'], $attachment['filename']);
+
+                $email->attach($swiftAttachment);
+            }
+        }catch(MessageDoesNotSupportAttachments $e){
+            //Fail silently
         }
 
         $this->mailer->send($email);
