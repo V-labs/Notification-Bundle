@@ -2,6 +2,8 @@
 
 namespace Vlabs\NotificationBundle\Factory;
 
+use Symfony\Component\Translation\Translator;
+use Symfony\Component\Translation\TranslatorInterface;
 use Vlabs\NotificationBundle\VO\NotificationConfig;
 use Symfony\Component\Templating\EngineInterface;
 
@@ -12,9 +14,15 @@ class MessageFactory
      */
     protected $templating;
 
-    public function __construct(EngineInterface $templating)
+    /**
+     * @var Translator
+     */
+    protected $translator;
+
+    public function __construct(EngineInterface $templating, TranslatorInterface $translator)
     {
         $this->templating = $templating;
+        $this->translator = $translator;
     }
 
     /**
@@ -35,7 +43,7 @@ class MessageFactory
 
         $reflectedMessage = new \ReflectionClass($classNS);
 
-        return $reflectedMessage->newInstance($config, $this->templating);
+        return $reflectedMessage->newInstance($config, $this->templating, $this->translator);
     }
 
     /**

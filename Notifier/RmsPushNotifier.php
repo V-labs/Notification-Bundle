@@ -2,6 +2,7 @@
 
 namespace Vlabs\NotificationBundle\Notifier;
 
+use RMS\PushNotificationsBundle\Message\WebMessage;
 use Vlabs\NotificationBundle\Constant\DeviceConstant;
 use Vlabs\NotificationBundle\DeviceInterface;
 use Vlabs\NotificationBundle\Message\AbstractMessage;
@@ -80,6 +81,13 @@ class RmsPushNotifier implements NotifierInterface
                 $msg = new iOSMessage();
                 $msg->setAPSSound('default');
                 $msg->setAPSBadge($device->getUser()->getPushNotRead());
+
+                return $msg;
+
+            case DeviceConstant::OS_WEB:
+
+                $msg = new WebMessage();
+                $msg->setWebFCMOptions($message->getWebFCMOptions());
 
                 return $msg;
 

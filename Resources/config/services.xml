@@ -13,6 +13,7 @@
 
         <service id="vlabs_notification.factory.message" class="Vlabs\NotificationBundle\Factory\MessageFactory">
             <argument type="service" id="templating" />
+            <argument type="service" id="translator" />
         </service>
 
         <service id="vlabs_notification.notifier.resolver" class="Vlabs\NotificationBundle\Resolver\NotifierResolver" />

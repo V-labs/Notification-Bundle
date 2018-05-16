@@ -2,6 +2,8 @@
 
 namespace Vlabs\NotificationBundle\Message;
 
+use Symfony\Component\Translation\Translator;
+use Symfony\Component\Translation\TranslatorInterface;
 use Vlabs\NotificationBundle\Entity\Notification;
 use Vlabs\NotificationBundle\Exception\MessageDoesNotSupportAttachments;
 use Vlabs\NotificationBundle\VO\NotificationConfig;
@@ -23,6 +25,11 @@ abstract class AbstractMessage implements MessageInterface
      * @var EngineInterface
      */
     protected $templating;
+
+    /**
+     * @var Translator
+     */
+    protected $translator;
 
     /**
      * @var string
@@ -54,10 +61,22 @@ abstract class AbstractMessage implements MessageInterface
      */
     protected $gcmOptions;
 
-    public function __construct(NotificationConfig $config, EngineInterface $templating)
+    /**
+     * @var array
+     */
+    protected $webFcmOptions;
+
+    /**
+     * AbstractMessage constructor.
+     * @param NotificationConfig $config
+     * @param EngineInterface $templating
+     * @param TranslatorInterface $translator
+     */
+    public function __construct(NotificationConfig $config, EngineInterface $templating, TranslatorInterface $translator)
     {
         $this->config = $config;
         $this->templating = $templating;
+        $this->translator = $translator;
     }
 
     public function getBody()
@@ -108,5 +127,10 @@ abstract class AbstractMessage implements MessageInterface
     public function getAttachments()
     {
         throw new MessageDoesNotSupportAttachments();
+    }
+
+    public function getWebFCMOptions()
+    {
+        return $this->webFcmOptions;
     }
 }
