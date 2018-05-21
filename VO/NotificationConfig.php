@@ -8,18 +8,19 @@ class NotificationConfig
 {
     private $action;
     private $type;
-    private $rootDir;
     private $data;
+    private $rootNamespace;
 
     /**
      * Describe a message, triggered after an action
      *
      * @param $action
      * @param string $notificationType
-     * @param string $rootDir
      * @param $data
+     * @param string $rootNamespace
      */
-    public function __construct($action = null, $notificationType = null, $rootDir = ConfigConstant::DEFAULT_ROOT_DIR, $data)
+    public function __construct($action = null, $notificationType = null, $data,
+                                $rootNamespace = ConfigConstant::DEFAULT_ROOT_NAMESPACE)
     {
         if(is_null($action)){
             throw new \InvalidArgumentException('$action must be one of your triggered event');
@@ -31,8 +32,8 @@ class NotificationConfig
 
         $this->action = $action;
         $this->type = $notificationType;
-        $this->rootDir = $rootDir;
         $this->data = $data;
+        $this->rootNamespace = $rootNamespace;
     }
 
     /**
@@ -62,8 +63,8 @@ class NotificationConfig
     /**
      * @return string
      */
-    public function getRootDir()
+    public function getRootNamespace()
     {
-        return $this->rootDir;
+        return $this->rootNamespace;
     }
 }
