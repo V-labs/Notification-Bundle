@@ -9,7 +9,12 @@
     },
     "require": {
         "php": ">=5.3.9",
-        "symfony/symfony": ">=3.0.0",
+        "symfony/config": ">=3.0.0",
+        "symfony/dependency-injection": ">=3.0.0",
+        "symfony/http-kernel": ">=3.0.0",
+        "symfony/options-resolver": ">=3.0.0",
+        "symfony/templating": ">=3.0.0",
+        "symfony/translation": ">=3.0.0",
         "ovh/php-ovh-sms": "1.1",
         "nexylan/slack": ">=1.7"
     },
