@@ -33,12 +33,12 @@ class MessageFactory
     {
         $action = $config->getAction();
         $type = $config->getType();
-        $rootDir = $config->getRootDir();
+        $rootNamespace = $config->getRootNamespace();
 
         $camelizedAction = $this->camelize($action);
 
         $classNS = sprintf('%s\Notification\%s\%s',
-            $rootDir,
+            $rootNamespace,
             ucfirst($type),
             $camelizedAction
         );
