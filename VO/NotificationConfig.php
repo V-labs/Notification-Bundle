@@ -2,10 +2,13 @@
 
 namespace Vlabs\NotificationBundle\VO;
 
+use Vlabs\NotificationBundle\Constant\ConfigConstant;
+
 class NotificationConfig
 {
     private $action;
     private $type;
+    private $rootDir;
     private $data;
 
     /**
@@ -13,9 +16,10 @@ class NotificationConfig
      *
      * @param $action
      * @param string $notificationType
+     * @param string $rootDir
      * @param $data
      */
-    public function __construct($action = null, $notificationType = null, $data)
+    public function __construct($action = null, $notificationType = null, $rootDir = ConfigConstant::DEFAULT_ROOT_DIR, $data)
     {
         if(is_null($action)){
             throw new \InvalidArgumentException('$action must be one of your triggered event');
@@ -27,6 +31,7 @@ class NotificationConfig
 
         $this->action = $action;
         $this->type = $notificationType;
+        $this->rootDir = $rootDir;
         $this->data = $data;
     }
 
@@ -52,5 +57,13 @@ class NotificationConfig
     public function getData()
     {
         return $this->data;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRootDir()
+    {
+        return $this->rootDir;
     }
 }
