@@ -1,4 +1,4 @@
-The config of the Vlabs Notification Bundle should be in your config.yml if your Symfony version is under 4.0, from this one, you should rather have a packages/vlabs_notification.yaml config file.
+The config of the Vlabs Notification Bundle should be in your config.yml if you don't use Symfony Flex, otherwise, you should rather have a packages/vlabs_notification.yaml config file.
 
 From the 2.1.0 version, you can define the root namespace where notification messages are, the default value is 'AppBundle\Notification'.
 
