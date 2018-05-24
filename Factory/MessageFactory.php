@@ -2,6 +2,7 @@
 
 namespace Vlabs\NotificationBundle\Factory;
 
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Translation\Translator;
 use Symfony\Component\Translation\TranslatorInterface;
 use Vlabs\NotificationBundle\VO\NotificationConfig;
@@ -9,6 +10,11 @@ use Symfony\Component\Templating\EngineInterface;
 
 class MessageFactory
 {
+    /**
+     * @var array
+     */
+    private $config = [];
+
     /**
      * @var EngineInterface
      */
@@ -33,12 +39,11 @@ class MessageFactory
     {
         $action = $config->getAction();
         $type = $config->getType();
-        $rootNamespace = $config->getRootNamespace();
 
         $camelizedAction = $this->camelize($action);
 
-        $classNS = sprintf('%s\Notification\%s\%s',
-            $rootNamespace,
+        $classNS = sprintf('%s\%s\%s',
+            $this->config['root_namespace'],
             ucfirst($type),
             $camelizedAction
         );
@@ -64,5 +69,18 @@ class MessageFactory
         }
 
         return $camelized;
+    }
+
+    /**
+     * @param array $config
+     */
+    public function setConfig(array $config)
+    {
+        $resolver = new OptionsResolver();
+        $resolver->setRequired([
+            "root_namespace"
+        ]);
+
+        $this->config = $resolver->resolve($config);
     }
 }

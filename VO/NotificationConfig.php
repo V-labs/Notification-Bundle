@@ -2,14 +2,11 @@
 
 namespace Vlabs\NotificationBundle\VO;
 
-use Vlabs\NotificationBundle\Constant\ConfigConstant;
-
 class NotificationConfig
 {
     private $action;
     private $type;
     private $data;
-    private $rootNamespace;
 
     /**
      * Describe a message, triggered after an action
@@ -17,10 +14,8 @@ class NotificationConfig
      * @param $action
      * @param string $notificationType
      * @param $data
-     * @param string $rootNamespace
      */
-    public function __construct($action = null, $notificationType = null, $data,
-                                $rootNamespace = ConfigConstant::DEFAULT_ROOT_NAMESPACE)
+    public function __construct($action = null, $notificationType = null, $data)
     {
         if(is_null($action)){
             throw new \InvalidArgumentException('$action must be one of your triggered event');
@@ -33,7 +28,6 @@ class NotificationConfig
         $this->action = $action;
         $this->type = $notificationType;
         $this->data = $data;
-        $this->rootNamespace = $rootNamespace;
     }
 
     /**
@@ -58,13 +52,5 @@ class NotificationConfig
     public function getData()
     {
         return $this->data;
-    }
-
-    /**
-     * @return string
-     */
-    public function getRootNamespace()
-    {
-        return $this->rootNamespace;
     }
 }
