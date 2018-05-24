@@ -4,6 +4,7 @@ namespace Vlabs\NotificationBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
+use Vlabs\NotificationBundle\Constant\ConfigConstant;
 
 /**
  * This is the class that validates and merges configuration from your app/config files.
@@ -22,6 +23,13 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
+                ->arrayNode('config')
+                    ->children()
+                        ->scalarNode('root_namespace')
+                            ->defaultValue(ConfigConstant::DEFAULT_ROOT_NAMESPACE)
+                        ->end()
+                    ->end()
+                ->end()
                 ->arrayNode('push')
                     ->children()
                         ->booleanNode('gcm')
