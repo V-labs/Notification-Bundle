@@ -11,11 +11,6 @@ use Symfony\Component\Templating\EngineInterface;
 class MessageFactory
 {
     /**
-     * @var array
-     */
-    private $config = [];
-
-    /**
      * @var EngineInterface
      */
     protected $templating;
@@ -25,10 +20,16 @@ class MessageFactory
      */
     protected $translator;
 
-    public function __construct(EngineInterface $templating, TranslatorInterface $translator)
+    /**
+     * @var string
+     */
+    protected $rootNamespace;
+
+    public function __construct(EngineInterface $templating, TranslatorInterface $translator, $rootNamespace)
     {
-        $this->templating = $templating;
-        $this->translator = $translator;
+        $this->templating    = $templating;
+        $this->translator    = $translator;
+        $this->rootNamespace = $rootNamespace;
     }
 
     /**
@@ -43,7 +44,7 @@ class MessageFactory
         $camelizedAction = $this->camelize($action);
 
         $classNS = sprintf('%s\%s\%s',
-            $this->config['root_namespace'],
+            $this->rootNamespace,
             ucfirst($type),
             $camelizedAction
         );
@@ -69,18 +70,5 @@ class MessageFactory
         }
 
         return $camelized;
-    }
-
-    /**
-     * @param array $config
-     */
-    public function setConfig(array $config)
-    {
-        $resolver = new OptionsResolver();
-        $resolver->setRequired([
-            "root_namespace"
-        ]);
-
-        $this->config = $resolver->resolve($config);
     }
 }

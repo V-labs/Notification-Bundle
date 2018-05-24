@@ -47,11 +47,8 @@ class VlabsNotificationExtension extends Extension
             $definition->addMethodCall('setConfig', [$config['slack']]);
         }
 
-        if (isset($config['config']) && $container->has('vlabs_notification.factory.message'))
-        {
-            /** @var Definition $definition */
-            $definition = $container->findDefinition('vlabs_notification.factory.message');
-            $definition->addMethodCall('setConfig', [$config['config']]);
-        }
+        /** @var Definition $definition */
+        $definition = $container->findDefinition('vlabs_notification.factory.message');
+        $definition->replaceArgument(2, $config['config']['root_namespace']);
     }
 }
