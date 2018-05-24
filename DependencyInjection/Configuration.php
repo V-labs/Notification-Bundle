@@ -24,6 +24,7 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->children()
                 ->arrayNode('config')
+                    ->addDefaultsIfNotSet()
                     ->children()
                         ->scalarNode('root_namespace')
                             ->defaultValue(ConfigConstant::DEFAULT_ROOT_NAMESPACE)
