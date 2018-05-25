@@ -30,7 +30,7 @@ class SwiftMailerNotifier implements NotifierInterface
      */
     public function addToQueue(MessageInterface $message)
     {
-        $email = \Swift_Message::newInstance()
+        $email = (new \Swift_Message())
             ->setSubject($message->getSubject())
             ->setFrom($this->emailSender)
             ->setTo($message->getTo())
