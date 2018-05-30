@@ -4,7 +4,7 @@ namespace Vlabs\NotificationBundle\Notifier;
 
 use Vlabs\NotificationBundle\Exception\MessageDoesNotSupportAttachments;
 use Vlabs\NotificationBundle\Message\MessageInterface;
-use Vlabs\NotificationBundle\MessageOption\SwiftMailerOption;
+use Vlabs\NotificationBundle\MessageOptions\SwiftMailerOptions;
 
 class SwiftMailerNotifier implements NotifierInterface
 {
@@ -37,12 +37,12 @@ class SwiftMailerNotifier implements NotifierInterface
             ->setTo($message->getTo())
             ->setBody($message->getBody(), 'text/html');
 
-        /** @var SwiftMailerOption $messageOption */
+        /** @var SwiftMailerOptions $messageOption */
         if ($messageOption = $message->getMessageOption()) {
-            $additionalTo  = $messageOption->getAdditionalTo();
-            $cc            = $messageOption->getCc();
-            $bcc           = $messageOption->getBcc();
-            $replyTo       = $messageOption->getReplyTo();
+            $additionalTo  = $messageOption->getValueForKey(SwiftMailerOptions::ADDITIONAL_TO);
+            $cc            = $messageOption->getValueForKey(SwiftMailerOptions::CC);
+            $bcc           = $messageOption->getValueForKey(SwiftMailerOptions::BCC);
+            $replyTo       = $messageOption->getValueForKey(SwiftMailerOptions::REPLY_TO);
 
             if ($additionalTo !== null) {
                 if (!is_array($additionalTo)) {

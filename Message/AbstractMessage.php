@@ -6,7 +6,7 @@ use Symfony\Component\Translation\Translator;
 use Symfony\Component\Translation\TranslatorInterface;
 use Vlabs\NotificationBundle\Entity\Notification;
 use Vlabs\NotificationBundle\Exception\MessageDoesNotSupportAttachments;
-use Vlabs\NotificationBundle\MessageOption\MessageOptionInterface;
+use Vlabs\NotificationBundle\MessageOptions\MessageOptionsInterface;
 use Vlabs\NotificationBundle\VO\NotificationConfig;
 use Symfony\Component\Templating\EngineInterface;
 
@@ -68,7 +68,7 @@ abstract class AbstractMessage implements MessageInterface
     protected $webFcmOptions;
 
     /**
-     * @var MessageOptionInterface
+     * @var MessageOptionsInterface
      */
     protected $messageOption;
 
@@ -141,7 +141,7 @@ abstract class AbstractMessage implements MessageInterface
     }
 
     /**
-     * @return MessageOptionInterface
+     * @return MessageOptionsInterface
      */
     public function getMessageOption()
     {
