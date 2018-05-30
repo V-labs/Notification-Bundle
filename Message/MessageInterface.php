@@ -2,6 +2,8 @@
 
 namespace Vlabs\NotificationBundle\Message;
 
+use Vlabs\NotificationBundle\MessageOption\MessageOptionInterface;
+
 /**
  * Describe how a message works
  *
@@ -73,4 +75,9 @@ interface MessageInterface
      * @return array
      */
     public function getAttachments();
+
+    /**
+     * @return MessageOptionInterface
+     */
+    public function getMessageOption();
 }
