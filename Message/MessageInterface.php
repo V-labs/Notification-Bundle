@@ -2,6 +2,7 @@
 
 namespace Vlabs\NotificationBundle\Message;
 
+use Vlabs\NotificationBundle\Entity\Notification;
 use Vlabs\NotificationBundle\MessageOptions\MessageOptionsInterface;
 
 /**
@@ -22,62 +23,43 @@ interface MessageInterface
     /**
      * The resolvable name of the twig template
      *
-     * @return mixed
+     * @return string
      */
     public function getTemplate($type = 'body');
 
     /**
      * Notifier which will be used
      *
-     * @return mixed
+     * @return string
      */
     public function getType();
 
     /**
      * Action that lead to this message
      *
-     * @return mixed
+     * @return string
      */
     public function getAction();
 
     /**
      * The persistable notification
      *
-     * @return mixed
+     * @return Notification
      */
     public function getNotification();
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getBody();
 
     /**
-     * @return mixed
+     * @return string|array
      */
     public function getTo();
 
     /**
-     * @return mixed
-     */
-    public function getSubject();
-
-    /**
-     * @return array
-     */
-    public function getData();
-
-    /**
-     * array of attachments
-     *
-     * attachment = ['filename' => $filename, 'content' => $content]
-     *
-     * @return array
-     */
-    public function getAttachments();
-
-    /**
      * @return MessageOptionsInterface
      */
-    public function getMessageOption();
+    public function getOptions();
 }

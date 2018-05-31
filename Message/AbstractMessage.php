@@ -5,7 +5,6 @@ namespace Vlabs\NotificationBundle\Message;
 use Symfony\Component\Translation\Translator;
 use Symfony\Component\Translation\TranslatorInterface;
 use Vlabs\NotificationBundle\Entity\Notification;
-use Vlabs\NotificationBundle\Exception\MessageDoesNotSupportAttachments;
 use Vlabs\NotificationBundle\MessageOptions\MessageOptionsInterface;
 use Vlabs\NotificationBundle\VO\NotificationConfig;
 use Symfony\Component\Templating\EngineInterface;
@@ -33,14 +32,9 @@ abstract class AbstractMessage implements MessageInterface
     protected $translator;
 
     /**
-     * @var string
+     * @var string|array
      */
     protected $to;
-
-    /**
-     * @var string
-     */
-    protected $subject = null;
 
     /**
      * @var string
@@ -48,29 +42,9 @@ abstract class AbstractMessage implements MessageInterface
     protected $body;
 
     /**
-     * @var array
-     */
-    protected $data;
-
-    /**
-     * @var array
-     */
-    protected $fcmOptions;
-
-    /**
-     * @var array
-     */
-    protected $gcmOptions;
-
-    /**
-     * @var array
-     */
-    protected $webFcmOptions;
-
-    /**
      * @var MessageOptionsInterface
      */
-    protected $messageOption;
+    protected $options;
 
     /**
      * AbstractMessage constructor.
@@ -85,66 +59,51 @@ abstract class AbstractMessage implements MessageInterface
         $this->translator = $translator;
     }
 
+    /**
+     * @return string
+     */
     public function getBody()
     {
         return $this->body;
     }
 
+    /**
+     * @return array|string
+     */
     public function getTo()
     {
         return $this->to;
     }
 
+    /**
+     * @return string
+     */
     public function getType()
     {
         return $this->config->getType();
     }
 
+    /**
+     * @return string
+     */
     public function getAction()
     {
         return $this->config->getAction();
     }
 
+    /**
+     * @return Notification
+     */
     public function getNotification()
     {
         return $this->notification;
     }
 
-    public function getSubject()
-    {
-        return $this->subject;
-    }
-
-    public function getData()
-    {
-        return $this->data;
-    }
-
-    public function getFCMOptions()
-    {
-        return $this->fcmOptions;
-    }
-
-    public function getGCMOptions()
-    {
-        return $this->gcmOptions;
-    }
-
-    public function getAttachments()
-    {
-        throw new MessageDoesNotSupportAttachments();
-    }
-
-    public function getWebFCMOptions()
-    {
-        return $this->webFcmOptions;
-    }
-
     /**
      * @return MessageOptionsInterface
      */
-    public function getMessageOption()
+    public function getOptions()
     {
-        return $this->messageOption;
+        return $this->options;
     }
 }

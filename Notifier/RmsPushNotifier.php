@@ -10,6 +10,7 @@ use Vlabs\NotificationBundle\Message\MessageInterface;
 use RMS\PushNotificationsBundle\Message\AndroidMessage;
 use RMS\PushNotificationsBundle\Message\iOSMessage;
 use RMS\PushNotificationsBundle\Service\Notifications;
+use Vlabs\NotificationBundle\MessageOptions\RmsPushOptions;
 
 class RmsPushNotifier implements NotifierInterface
 {
@@ -42,11 +43,15 @@ class RmsPushNotifier implements NotifierInterface
         /** @var DeviceInterface $device */
         foreach($message->getTo() as $device)
         {
+            if ($messageOption = $message->getOptions()) {
+                $data = $messageOption->getValueForKey(RmsPushOptions::DATA);
+            }
+
             $rmsMessage = $this->getRmsMessage($device, $message);
 
             $rmsMessage->setDeviceIdentifier($device->getToken());
             $rmsMessage->setMessage($message->getBody());
-            $rmsMessage->setData($message->getData());
+            $rmsMessage->setData(isset($data) ? $data : []);
 
             $this->rmsNotifier->send($rmsMessage);
         }
@@ -59,19 +64,24 @@ class RmsPushNotifier implements NotifierInterface
      */
     private function getRmsMessage(DeviceInterface $device, MessageInterface $message)
     {
+        if ($messageOption = $message->getOptions()) {
+            $gcm    = $messageOption->getValueForKey(RmsPushOptions::GCM);
+            $fcm    = $messageOption->getValueForKey(RmsPushOptions::FCM);
+            $webFcm = $messageOption->getValueForKey(RmsPushOptions::WEBFCM);
+        }
+
         switch ($device->getOs()) {
 
             case DeviceConstant::OS_ANDROID:
 
                 $msg = new AndroidMessage();
 
-                if(isset($this->config['gcm']) && $this->config['gcm'] === true)
-                {
+                if (isset($this->config['gcm']) && $this->config['gcm'] === true && isset($gcm)) {
                     $msg->setGCM(true);
-                    $msg->setGCMOptions($message->getGCMOptions());
-                }else{
+                    $msg->setGCMOptions($gcm);
+                } else if (isset($fcm)) {
                     $msg->setFCM(true);
-                    $msg->setFCMOptions($message->getFCMOptions());
+                    $msg->setFCMOptions($fcm);
                 }
 
                 return $msg;
@@ -87,7 +97,10 @@ class RmsPushNotifier implements NotifierInterface
             case DeviceConstant::OS_WEB:
 
                 $msg = new WebMessage();
-                $msg->setWebFCMOptions($message->getWebFCMOptions());
+
+                if (isset($webFcm)) {
+                    $msg->setWebFCMOptions($webFcm);
+                }
 
                 return $msg;
 

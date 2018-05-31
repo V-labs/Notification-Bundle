@@ -2,6 +2,9 @@
 
 namespace Vlabs\NotificationBundle\MessageOptions;
 
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Vlabs\NotificationBundle\Exception\MessageOptionNotAllowedException;
+
 abstract class AbstractMessageOptions implements MessageOptionsInterface
 {
     /**
@@ -10,9 +13,34 @@ abstract class AbstractMessageOptions implements MessageOptionsInterface
     protected $options = [];
 
     /**
-     * @param array $option
+     * @var array
      */
-    abstract protected function validateOption($option);
+    protected $availableOptions;
+
+    /**
+     * @param string $key
+     * @param mixed $value
+     *
+     * @throws MessageOptionNotAllowedException
+     */
+    public function validateOption($key, $value)
+    {
+        $resolver = new OptionsResolver();
+
+        foreach ($this->availableOptions as $availableOptionKey => $availableOptionType) {
+            $resolver->setDefined($availableOptionKey);
+
+            if ($availableOptionType !== '*') {
+                $resolver->setAllowedTypes($availableOptionKey, $availableOptionType);
+            }
+        }
+
+        try {
+            $resolver->resolve([$key => $value]);
+        } catch (\Exception $e) {
+            throw new MessageOptionNotAllowedException();
+        }
+    }
 
     /**
      * @param string $key
@@ -20,7 +48,8 @@ abstract class AbstractMessageOptions implements MessageOptionsInterface
      */
     public function setValueForKey($key, $value)
     {
-        $this->validateOption([$key => $value]);
+        $this->validateOption($key, $value);
+        $this->options[$key] = $value;
     }
 
     /**
@@ -31,13 +60,5 @@ abstract class AbstractMessageOptions implements MessageOptionsInterface
     public function getValueForKey($key)
     {
         return array_key_exists($key, $this->options) ? $this->options[$key] : null;
-    }
-
-    /**
-     * @return array
-     */
-    public function getOptions()
-    {
-        return $this->options;
     }
 }

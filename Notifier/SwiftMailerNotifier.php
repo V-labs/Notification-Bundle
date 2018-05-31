@@ -32,26 +32,20 @@ class SwiftMailerNotifier implements NotifierInterface
     public function addToQueue(MessageInterface $message)
     {
         $email = (new \Swift_Message())
-            ->setSubject($message->getSubject())
             ->setFrom($this->emailSender)
             ->setTo($message->getTo())
             ->setBody($message->getBody(), 'text/html');
 
         /** @var SwiftMailerOptions $messageOption */
-        if ($messageOption = $message->getMessageOption()) {
-            $additionalTo  = $messageOption->getValueForKey(SwiftMailerOptions::ADDITIONAL_TO);
+        if ($messageOption = $message->getOptions()) {
+            $subject       = $messageOption->getValueForKey(SwiftMailerOptions::SUBJECT);
             $cc            = $messageOption->getValueForKey(SwiftMailerOptions::CC);
             $bcc           = $messageOption->getValueForKey(SwiftMailerOptions::BCC);
             $replyTo       = $messageOption->getValueForKey(SwiftMailerOptions::REPLY_TO);
+            $attachments   = $messageOption->getValueForKey(SwiftMailerOptions::ATTACHMENTS);
 
-            if ($additionalTo !== null) {
-                if (!is_array($additionalTo)) {
-                    $email->addTo($additionalTo);
-                } else {
-                    foreach ($additionalTo as $to) {
-                        $email->addTo($to);
-                    }
-                }
+            if ($subject !== null) {
+                $email->setSubject($subject);
             }
 
             if ($cc !== null) {
@@ -65,20 +59,18 @@ class SwiftMailerNotifier implements NotifierInterface
             if ($replyTo !== null) {
                 $email->setReplyTo($replyTo);
             }
-        }
 
-        try{
-            $attachments = $message->getAttachments();
-
-            /** @var array $attachment */
-            foreach ($attachments as $attachment)
-            {
-                $swiftAttachment = new \Swift_Attachment($attachment['content'], $attachment['filename']);
-
-                $email->attach($swiftAttachment);
+            if ($attachments !== null) {
+                try {
+                    /** @var array $attachment */
+                    foreach ($attachments as $attachment) {
+                        $swiftAttachment = new \Swift_Attachment($attachment['content'], $attachment['filename']);
+                        $email->attach($swiftAttachment);
+                    }
+                } catch(MessageDoesNotSupportAttachments $e) {
+                    //Fail silently
+                }
             }
-        }catch(MessageDoesNotSupportAttachments $e){
-            //Fail silently
         }
 
         $this->mailer->send($email);
