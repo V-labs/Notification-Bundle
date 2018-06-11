@@ -2,7 +2,7 @@
 
 namespace Vlabs\NotificationBundle\Notifier;
 
-use Maknz\Slack\Client as SlackClient;
+use GuzzleHttp\Client;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Vlabs\NotificationBundle\Message\MessageInterface;
 
@@ -28,8 +28,12 @@ class SlackNotifier implements NotifierInterface
      */
     private function send(MessageInterface $message)
     {
-        $slackClient = new SlackClient($this->config['app_endpoint']);
-        $slackClient->send($message->getBody());
+        /** @var Client $slackClient */
+        $slackClient = new Client();
+        $slackClient->post($this->config['app_endpoint'], [
+            'body'    => json_encode(['text' => $message->getBody()]),
+            'headers' => ['Content-type' => 'application/json']
+        ]);
     }
 
     /**

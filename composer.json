@@ -15,8 +15,7 @@
         "symfony/options-resolver": ">=3.0.0",
         "symfony/templating": ">=3.0.0",
         "symfony/translation": ">=3.0.0",
-        "ovh/php-ovh-sms": "1.1",
-        "nexylan/slack": ">=1.7"
+        "ovh/php-ovh-sms": "1.1"
     },
     "repositories": [
         {

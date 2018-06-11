@@ -73,6 +73,7 @@ class RmsPushNotifier implements NotifierInterface
         switch ($device->getOs()) {
 
             case DeviceConstant::OS_ANDROID:
+            case DeviceConstant::OS_WEB_DATA:
 
                 $msg = new AndroidMessage();
 
@@ -94,7 +95,7 @@ class RmsPushNotifier implements NotifierInterface
 
                 return $msg;
 
-            case DeviceConstant::OS_WEB:
+            case DeviceConstant::OS_WEB_NOTIFICATION:
 
                 $msg = new WebMessage();
 
