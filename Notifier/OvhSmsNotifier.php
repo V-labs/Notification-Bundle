@@ -5,6 +5,7 @@ namespace Vlabs\NotificationBundle\Notifier;
 use Ovh\Sms\SmsApi;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Vlabs\NotificationBundle\Message\MessageInterface;
+use Vlabs\NotificationBundle\MessageOptions\OvhSmsOptions;
 
 class OvhSmsNotifier implements NotifierInterface
 {
@@ -47,6 +48,15 @@ class OvhSmsNotifier implements NotifierInterface
         // FluentInterface pleaaase
         $smsMessage->addReceiver($message->getTo());
         $smsMessage->setIsMarketing(false);
+
+        if ($messageOption = $message->getOptions()) {
+            $sender = $messageOption->getValueForKey(OvhSmsOptions::SENDER);
+
+            if ($sender !== null) {
+                $smsMessage->setSender($sender);
+            }
+        }
+
         $smsMessage->send($message->getBody());
     }
 
