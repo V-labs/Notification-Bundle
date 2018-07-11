@@ -57,7 +57,7 @@ class OvhSmsNotifier implements NotifierInterface
             }
         }
 
-        if ($this->config['disable_sending']) {
+        if ($this->config['disable_sending'] === false) {
             $smsMessage->send($message->getBody());
         }
     }
