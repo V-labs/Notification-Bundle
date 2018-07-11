@@ -57,7 +57,9 @@ class OvhSmsNotifier implements NotifierInterface
             }
         }
 
-        $smsMessage->send($message->getBody());
+        if ($this->config['disable_sending']) {
+            $smsMessage->send($message->getBody());
+        }
     }
 
     /**
@@ -77,7 +79,8 @@ class OvhSmsNotifier implements NotifierInterface
         $resolver->setRequired([
             "app_key",
             "app_secret",
-            "consumer_key"
+            "consumer_key",
+            "disable_sending"
         ]);
 
         $this->config = $resolver->resolve($config);
