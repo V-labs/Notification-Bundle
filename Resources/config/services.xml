@@ -1,8 +1,8 @@
 <?xml version="1.0" ?>
 
 <container xmlns="http://symfony.com/schema/dic/services"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
 
@@ -18,25 +18,6 @@
         </service>
 
         <service id="vlabs_notification.notifier.resolver" class="Vlabs\NotificationBundle\Resolver\NotifierResolver" />
-
-        <service id="vlabs_notification.notifier.swift_mailer" class="Vlabs\NotificationBundle\Notifier\SwiftMailerNotifier">
-            <argument type="service" id="mailer" />
-            <argument>%email_sender%</argument>
-            <tag name="vlabs_notification.notifier" />
-        </service>
-
-        <service id="vlabs_notification.notifier.rms_push" class="Vlabs\NotificationBundle\Notifier\RmsPushNotifier">
-            <argument type="service" id="rms_push_notifications"/>
-            <tag name="vlabs_notification.notifier" />
-        </service>
-
-        <service id="vlabs_notification.notifier.ovh_sms" class="Vlabs\NotificationBundle\Notifier\OvhSmsNotifier">
-            <tag name="vlabs_notification.notifier" />
-        </service>
-
-        <service id="vlabs_notification.notifier.slack" class="Vlabs\NotificationBundle\Notifier\SlackNotifier">
-            <tag name="vlabs_notification.notifier" />
-        </service>
 
     </services>
 </container>

@@ -4,11 +4,13 @@ namespace Vlabs\NotificationBundle\MessageOptions;
 
 class SwiftMailerOptions extends AbstractMessageOptions
 {
-    const SUBJECT       = 'subject';
-    const CC            = 'cc';
-    const BCC           = 'bcc';
-    const REPLY_TO      = 'replyTo';
-    const ATTACHMENTS   = 'attachments';
+    const FROM_EMAIL  = 'from_email';
+    const FROM_NAME   = 'from_name';
+    const SUBJECT     = 'subject';
+    const CC          = 'cc';
+    const BCC         = 'bcc';
+    const REPLY_TO    = 'replyTo';
+    const ATTACHMENTS = 'attachments';
 
     /**
      * SwiftMailerOptions constructor.
@@ -16,6 +18,8 @@ class SwiftMailerOptions extends AbstractMessageOptions
     public function __construct()
     {
         $this->availableOptions = [
+            self::FROM_EMAIL    => ['string'],
+            self::FROM_NAME     => ['string'],
             self::SUBJECT       => ['string'],
             self::CC            => ['string', 'string[]'],
             self::BCC           => ['string', 'string[]'],

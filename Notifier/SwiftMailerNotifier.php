@@ -18,12 +18,25 @@ class SwiftMailerNotifier implements NotifierInterface
     /**
      * @var string
      */
-    protected $emailSender;
+    protected $defaultFromEmail;
 
-    public function __construct(\Swift_Mailer $mailer, $emailSender)
+    /**
+     * @var string
+     */
+    protected $defaultFromName;
+
+    /**
+     * SwiftMailerNotifier constructor.
+     *
+     * @param \Swift_Mailer $mailer
+     * @param               $defaultFromEmail
+     * @param               $defaultFromName
+     */
+    public function __construct(\Swift_Mailer $mailer, $defaultFromEmail, $defaultFromName)
     {
-        $this->mailer = $mailer;
-        $this->emailSender = $emailSender;
+        $this->mailer           = $mailer;
+        $this->defaultFromEmail = $defaultFromEmail;
+        $this->defaultFromName  = $defaultFromName;
     }
 
     /**
@@ -32,12 +45,13 @@ class SwiftMailerNotifier implements NotifierInterface
     public function addToQueue(MessageInterface $message)
     {
         $email = (new \Swift_Message())
-            ->setFrom($this->emailSender)
             ->setTo($message->getTo())
             ->setBody($message->getBody(), 'text/html');
 
         /** @var SwiftMailerOptions $messageOption */
         if ($messageOption = $message->getOptions()) {
+            $fromEmail     = $messageOption->getValueForKey(SwiftMailerOptions::FROM_EMAIL);
+            $fromName      = $messageOption->getValueForKey(SwiftMailerOptions::FROM_NAME);
             $subject       = $messageOption->getValueForKey(SwiftMailerOptions::SUBJECT);
             $cc            = $messageOption->getValueForKey(SwiftMailerOptions::CC);
             $bcc           = $messageOption->getValueForKey(SwiftMailerOptions::BCC);
@@ -72,6 +86,11 @@ class SwiftMailerNotifier implements NotifierInterface
                 }
             }
         }
+
+        $email->setFrom(
+            isset($fromEmail) ? $fromEmail : $this->defaultFromEmail,
+            isset($fromName)  ? $fromName  : $this->defaultFromName
+        );
 
         $this->mailer->send($email);
     }

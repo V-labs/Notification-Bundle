@@ -14,14 +14,6 @@
         "symfony/http-kernel": ">=3.0.0",
         "symfony/options-resolver": ">=3.0.0",
         "symfony/templating": ">=3.0.0",
-        "symfony/translation": ">=3.0.0",
-        "ovh/php-ovh-sms": "1.1",
-        "guzzlehttp/guzzle": ">=6.0"
-    },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/V-labs/php-ovh-sms.git"
-        }
-    ]
+        "symfony/translation": ">=3.0.0"
+    }
 }

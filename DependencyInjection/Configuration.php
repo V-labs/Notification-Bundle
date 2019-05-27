@@ -17,10 +17,9 @@ class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('vlabs_notification');
+        $treeBuilder = new TreeBuilder('vlabs_notification');
 
-        $rootNode
+        $treeBuilder->getRootNode()
             ->children()
                 ->arrayNode('config')
                     ->addDefaultsIfNotSet()
@@ -30,8 +29,24 @@ class Configuration implements ConfigurationInterface
                         ->end()
                     ->end()
                 ->end()
+                ->arrayNode('swiftmailer')
+                    ->children()
+                        ->booleanNode('enabled')
+                            ->defaultFalse()
+                        ->end()
+                        ->scalarNode('default_from_email')
+                            ->defaultNull()
+                        ->end()
+                        ->scalarNode('default_from_name')
+                            ->defaultNull()
+                        ->end()
+                    ->end()
+                ->end()
                 ->arrayNode('push')
                     ->children()
+                        ->booleanNode('enabled')
+                            ->defaultFalse()
+                        ->end()
                         ->booleanNode('gcm')
                             ->defaultFalse()
                         ->end()
@@ -39,6 +54,9 @@ class Configuration implements ConfigurationInterface
                 ->end()
                 ->arrayNode('sms')
                     ->children()
+                        ->booleanNode('enabled')
+                            ->defaultFalse()
+                        ->end()
                         ->scalarNode('app_key')->end()
                         ->scalarNode('app_secret')->end()
                         ->scalarNode('consumer_key')->end()
@@ -49,6 +67,9 @@ class Configuration implements ConfigurationInterface
                 ->end()
                 ->arrayNode('slack')
                     ->children()
+                        ->booleanNode('enabled')
+                            ->defaultFalse()
+                        ->end()
                         ->scalarNode('app_endpoint')->end()
                     ->end()
                 ->end()
