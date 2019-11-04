@@ -77,6 +77,7 @@ class OvhSmsNotifier implements NotifierInterface
     {
         $resolver = new OptionsResolver();
         $resolver->setRequired([
+            "enabled",
             "app_key",
             "app_secret",
             "consumer_key",
