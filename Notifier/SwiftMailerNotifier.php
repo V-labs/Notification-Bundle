@@ -2,6 +2,7 @@
 
 namespace Vlabs\NotificationBundle\Notifier;
 
+use Soundasleep\Html2Text;
 use Vlabs\NotificationBundle\Exception\MessageDoesNotSupportAttachments;
 use Vlabs\NotificationBundle\Message\MessageInterface;
 use Vlabs\NotificationBundle\MessageOptions\SwiftMailerOptions;
@@ -46,7 +47,11 @@ class SwiftMailerNotifier implements NotifierInterface
     {
         $email = (new \Swift_Message())
             ->setTo($message->getTo())
-            ->setBody($message->getBody(), 'text/html');
+            ->setBody(@Html2Text::convert($message->getBody(), [
+                'ignore_errors' => true
+            ]))
+            ->addPart($message->getBody(), 'text/html')
+        ;
 
         /** @var SwiftMailerOptions $messageOption */
         if ($messageOption = $message->getOptions()) {
@@ -92,12 +97,13 @@ class SwiftMailerNotifier implements NotifierInterface
             isset($fromName)  ? $fromName  : $this->defaultFromName
         );
 
-        $fromEmailInformation = preg_match_all('/([^@]+)@([^@]+)$/u', $email->getFrom());
+        // Split email address : left part of @ and right part, used for Message-ID header
+        $fromEmailInformation = preg_match_all('/([^@]+)@([^@]+)$/u', isset($fromEmail) ? $fromEmail : $this->defaultFromEmail);
         $username             = isset($fromEmailInformation[1]) ? $fromEmailInformation[1] : 'notification-bundle';
         $domain               = isset($fromEmailInformation[2]) ? $fromEmailInformation[2] : 'vlabs.com';
 
         $emailHeaders = $email->getHeaders();
-        $emailHeaders->addIdHeader('Message' . $username . '-ID', time() . '.' . uniqid($username) . '@' . $domain);
+        $emailHeaders->addIdHeader('Message-ID', time() . '.' . uniqid($username) . '@' . $domain);
         $emailHeaders->addTextHeader('MIME-Version', '1.0');
         $emailHeaders->addTextHeader('X-Mailer', 'PHP v' . phpversion());
         $emailHeaders->addParameterizedHeader('Content-type', 'text/html', ['charset' => 'utf-8']);
