@@ -98,15 +98,13 @@ class SwiftMailerNotifier implements NotifierInterface
         );
 
         // Split email address : left part of @ and right part, used for Message-ID header
-        $fromEmailInformation = preg_match_all('/([^@]+)@([^@]+)$/u', isset($fromEmail) ? $fromEmail : $this->defaultFromEmail);
-        $username             = isset($fromEmailInformation[1]) ? $fromEmailInformation[1] : 'notification-bundle';
-        $domain               = isset($fromEmailInformation[2]) ? $fromEmailInformation[2] : 'vlabs.com';
+        preg_match('/([^@]+)@([^@]+)$/u', isset($fromEmail) ? $fromEmail : $this->defaultFromEmail, $fromEmailInformation);
+        $username = isset($fromEmailInformation[1]) ? $fromEmailInformation[1] : 'notification-bundle';
+        $domain   = isset($fromEmailInformation[2]) ? $fromEmailInformation[2] : 'vlabs.fr';
 
         $emailHeaders = $email->getHeaders();
         $emailHeaders->addIdHeader('Message-ID', time() . '.' . uniqid($username) . '@' . $domain);
-        $emailHeaders->addTextHeader('MIME-Version', '1.0');
         $emailHeaders->addTextHeader('X-Mailer', 'PHP v' . phpversion());
-        $emailHeaders->addParameterizedHeader('Content-type', 'text/html', ['charset' => 'utf-8']);
 
         $this->mailer->send($email);
     }
