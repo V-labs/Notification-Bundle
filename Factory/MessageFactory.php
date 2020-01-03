@@ -5,13 +5,13 @@ namespace Vlabs\NotificationBundle\Factory;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Translation\Translator;
 use Symfony\Component\Translation\TranslatorInterface;
+use Twig\Environment;
 use Vlabs\NotificationBundle\VO\NotificationConfig;
-use Symfony\Component\Templating\EngineInterface;
 
 class MessageFactory
 {
     /**
-     * @var EngineInterface
+     * @var Environment
      */
     protected $templating;
 
@@ -25,7 +25,14 @@ class MessageFactory
      */
     protected $rootNamespace;
 
-    public function __construct(EngineInterface $templating, TranslatorInterface $translator, $rootNamespace)
+    /**
+     * MessageFactory constructor.
+     *
+     * @param Environment         $templating
+     * @param TranslatorInterface $translator
+     * @param                     $rootNamespace
+     */
+    public function __construct(Environment $templating, TranslatorInterface $translator, $rootNamespace)
     {
         $this->templating    = $templating;
         $this->translator    = $translator;

@@ -4,10 +4,10 @@ namespace Vlabs\NotificationBundle\Message;
 
 use Symfony\Component\Translation\Translator;
 use Symfony\Component\Translation\TranslatorInterface;
+use Twig\Environment;
 use Vlabs\NotificationBundle\Entity\Notification;
 use Vlabs\NotificationBundle\MessageOptions\MessageOptionsInterface;
 use Vlabs\NotificationBundle\VO\NotificationConfig;
-use Symfony\Component\Templating\EngineInterface;
 
 abstract class AbstractMessage implements MessageInterface
 {
@@ -22,7 +22,7 @@ abstract class AbstractMessage implements MessageInterface
     protected $notification;
 
     /**
-     * @var EngineInterface
+     * @var Environment
      */
     protected $templating;
 
@@ -48,13 +48,13 @@ abstract class AbstractMessage implements MessageInterface
 
     /**
      * AbstractMessage constructor.
-     * @param NotificationConfig $config
-     * @param EngineInterface $templating
+     * @param NotificationConfig  $config
+     * @param Environment         $templating
      * @param TranslatorInterface $translator
      */
-    public function __construct(NotificationConfig $config, EngineInterface $templating, TranslatorInterface $translator)
+    public function __construct(NotificationConfig $config, Environment $templating, TranslatorInterface $translator)
     {
-        $this->config = $config;
+        $this->config     = $config;
         $this->templating = $templating;
         $this->translator = $translator;
     }

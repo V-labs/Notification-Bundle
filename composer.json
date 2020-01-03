@@ -15,6 +15,7 @@
         "symfony/options-resolver": ">=3.0.0",
         "symfony/templating": ">=3.0.0",
         "symfony/translation": ">=3.0.0",
-        "soundasleep/html2text": ">=1.1.0"
+        "soundasleep/html2text": ">=1.1.0",
+        "twig/twig": "~2.12|~3.0"
     }
 }
