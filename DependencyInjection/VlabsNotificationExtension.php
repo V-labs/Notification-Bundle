@@ -8,6 +8,7 @@ use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader;
+use Vlabs\NotificationBundle\Notifier\FirebasePushNotifier;
 use Vlabs\NotificationBundle\Notifier\OvhSmsNotifier;
 use Vlabs\NotificationBundle\Notifier\RmsPushNotifier;
 use Vlabs\NotificationBundle\Notifier\SlackNotifier;
@@ -51,9 +52,19 @@ class VlabsNotificationExtension extends Extension
                     ->addTag('vlabs_notification.notifier')
                 ;
             }
-
             /** @var Definition $definition */
             $definition = $container->findDefinition('vlabs_notification.notifier.rms_push');
+            $definition->addMethodCall('setConfig', [$config['push']]);
+
+            if (!$container->has('vlabs_notification.notifier.firebase_push')) {
+                $container
+                    ->register('vlabs_notification.notifier.firebase_push', FirebasePushNotifier::class)
+                    ->addArgument(new Reference('kreait_firebase.drago.messaging'))
+                    ->addTag('vlabs_notification.notifier')
+                ;
+            }
+            /** @var Definition $definition */
+            $definition = $container->findDefinition('vlabs_notification.notifier.firebase_push');
             $definition->addMethodCall('setConfig', [$config['push']]);
         }
 
