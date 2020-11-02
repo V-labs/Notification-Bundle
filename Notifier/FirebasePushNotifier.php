@@ -51,7 +51,8 @@ class FirebasePushNotifier implements NotifierInterface
             }
 
             $cloudMessage = CloudMessage::withTarget('token', $device->getToken())
-                ->withNotification(Notification::create($title ?: 'Notification', $message->getBody()));
+                ->withNotification(Notification::create($title ?: 'Notification', $message->getBody()))
+                ->withDefaultSounds(); // Enables default notifications sounds on iOS and Android devices.
 
             $this->messaging->send($cloudMessage);
         }
