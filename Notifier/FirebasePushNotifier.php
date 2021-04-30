@@ -2,7 +2,7 @@
 
 namespace Vlabs\NotificationBundle\Notifier;
 
-use Kreait\Firebase\Exception\Messaging\NotFound;
+use Kreait\Firebase\Exception\MessagingException;
 use Kreait\Firebase\Messaging;
 use Kreait\Firebase\Messaging\CloudMessage;
 use Kreait\Firebase\Messaging\Notification;
@@ -57,7 +57,7 @@ class FirebasePushNotifier implements NotifierInterface
 
             try {
                 $this->messaging->send($cloudMessage);
-            } catch (NotFound $e) {} // fail silently so we can go to the next device
+            } catch (MessagingException $e) {} // fail silently so we can go to the next device
         }
     }
 
