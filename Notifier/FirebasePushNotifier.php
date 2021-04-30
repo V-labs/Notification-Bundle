@@ -2,6 +2,7 @@
 
 namespace Vlabs\NotificationBundle\Notifier;
 
+use Kreait\Firebase\Exception\Messaging\NotFound;
 use Kreait\Firebase\Messaging;
 use Kreait\Firebase\Messaging\CloudMessage;
 use Kreait\Firebase\Messaging\Notification;
@@ -54,7 +55,9 @@ class FirebasePushNotifier implements NotifierInterface
                 ->withNotification(Notification::create($title ?: 'Notification', $message->getBody()))
                 ->withDefaultSounds(); // Enables default notifications sounds on iOS and Android devices.
 
-            $this->messaging->send($cloudMessage);
+            try {
+                $this->messaging->send($cloudMessage);
+            } catch (NotFound $e) {} // fail silently so we can go to the next device
         }
     }
 
