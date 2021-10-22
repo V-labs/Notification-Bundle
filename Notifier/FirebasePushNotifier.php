@@ -5,17 +5,15 @@ namespace Vlabs\NotificationBundle\Notifier;
 use Kreait\Firebase\Exception\MessagingException;
 use Kreait\Firebase\Messaging;
 use Kreait\Firebase\Messaging\CloudMessage;
+use Kreait\Firebase\Messaging\MessageData;
 use Kreait\Firebase\Messaging\Notification;
+use Kreait\Firebase\Messaging\WebPushConfig;
 use RMS\PushNotificationsBundle\Message\AndroidMessage;
 use RMS\PushNotificationsBundle\Message\iOSMessage;
 use RMS\PushNotificationsBundle\Message\WebMessage;
-use Vlabs\NotificationBundle\Constant\DeviceConstant;
 use Vlabs\NotificationBundle\DeviceInterface;
-use Vlabs\NotificationBundle\Message\AbstractMessage;
 use Vlabs\NotificationBundle\Message\MessageInterface;
 use Vlabs\NotificationBundle\MessageOptions\FirebasePushOptions;
-use Vlabs\NotificationBundle\MessageOptions\RmsPushOptions;
-use Vlabs\NotificationBundle\MessageOptions\SwiftMailerOptions;
 
 class FirebasePushNotifier implements NotifierInterface
 {
@@ -46,14 +44,24 @@ class FirebasePushNotifier implements NotifierInterface
     {
         /** @var DeviceInterface $device */
         foreach ($message->getTo() as $device) {
-
             if ($messageOption = $message->getOptions()) {
-                $title = $messageOption->getValueForKey(FirebasePushOptions::TITLE);
+                $title         = $messageOption->getValueForKey(FirebasePushOptions::TITLE);
+                $imageUrl      = $messageOption->getValueForKey(FirebasePushOptions::IMAGE_URL);
+                $data          = $messageOption->getValueForKey(FirebasePushOptions::DATA);
+                $webPushConfig = $messageOption->getValueForKey(FirebasePushOptions::WEB_PUSH_CONFIG);
             }
 
             $cloudMessage = CloudMessage::withTarget('token', $device->getToken())
-                ->withNotification(Notification::create($title ?: 'Notification', $message->getBody()))
+                ->withNotification(Notification::create($title ?: 'Notification', $message->getBody(), $imageUrl ?? null))
                 ->withDefaultSounds(); // Enables default notifications sounds on iOS and Android devices.
+
+            if (isset($data)) {
+                $cloudMessage = $cloudMessage->withData(MessageData::fromArray($data));
+            }
+
+            if (isset($webPushConfig)) {
+                $cloudMessage = $cloudMessage->withWebPushConfig(WebPushConfig::fromArray($webPushConfig));
+            }
 
             try {
                 $this->messaging->send($cloudMessage);

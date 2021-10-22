@@ -9,7 +9,7 @@ class SwiftMailerOptions extends AbstractMessageOptions
     const SUBJECT     = 'subject';
     const CC          = 'cc';
     const BCC         = 'bcc';
-    const REPLY_TO    = 'replyTo';
+    const REPLY_TO    = 'reply_to';
     const ATTACHMENTS = 'attachments';
 
     /**

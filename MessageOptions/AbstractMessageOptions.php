@@ -2,6 +2,7 @@
 
 namespace Vlabs\NotificationBundle\MessageOptions;
 
+use Exception;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Vlabs\NotificationBundle\Exception\MessageOptionNotAllowedException;
 
@@ -37,14 +38,16 @@ abstract class AbstractMessageOptions implements MessageOptionsInterface
 
         try {
             $resolver->resolve([$key => $value]);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             throw new MessageOptionNotAllowedException();
         }
     }
 
     /**
      * @param string $key
-     * @param mixed $value
+     * @param mixed  $value
+     *
+     * @throws MessageOptionNotAllowedException
      */
     public function setValueForKey($key, $value)
     {
