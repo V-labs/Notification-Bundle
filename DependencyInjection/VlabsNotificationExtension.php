@@ -9,6 +9,7 @@ use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader;
 use Vlabs\NotificationBundle\Notifier\FirebasePushNotifier;
+use Vlabs\NotificationBundle\Notifier\MailerNotifier;
 use Vlabs\NotificationBundle\Notifier\OvhSmsNotifier;
 use Vlabs\NotificationBundle\Notifier\RmsPushNotifier;
 use Vlabs\NotificationBundle\Notifier\SlackNotifier;
@@ -39,6 +40,18 @@ class VlabsNotificationExtension extends Extension
                     ->addArgument(new Reference('mailer'))
                     ->addArgument($config['swiftmailer']['default_from_email'])
                     ->addArgument($config['swiftmailer']['default_from_name'])
+                    ->addTag('vlabs_notification.notifier')
+                ;
+            }
+        }
+
+        if (isset($config['mailer']) && $config['mailer']['enabled'] === true) {
+            if (!$container->has('vlabs_notification.notifier.mailer')) {
+                $container
+                    ->register('vlabs_notification.notifier.mailer', MailerNotifier::class)
+                    ->addArgument(new Reference('mailer.mailer'))
+                    ->addArgument($config['mailer']['default_from_email'])
+                    ->addArgument($config['mailer']['default_from_name'])
                     ->addTag('vlabs_notification.notifier')
                 ;
             }

@@ -54,6 +54,20 @@ vlabs_notification:
         default_from_email: default@email.com
         default_from_name: Default Sender Name
  ```  
+
+## Mailer
+
+Find below the configuration for the current version.
+
+In your config file :
+
+```yaml
+vlabs_notification:
+    mailer:
+        enabled: true
+        default_from_email: default@email.com
+        default_from_name: Default Sender Name
+```
   
 ## OVH SMS
 
@@ -175,6 +189,20 @@ You will find below the options that you can set in a **SwiftMailerOptions**.
 | replyTo     | string, string[] | SwiftMailerOptions::REPLY_TO    |
 | attachments | array            | SwiftMailerOptions::ATTACHMENTS |
 
+### MailerOptions
+
+You will find below the options that you can set in a **MailerOptions**.
+
+| Option      | Allowed Types    | Constant                   |
+|-------------|------------------|----------------------------|
+| from_email  | string           | MailerOptions::FROM_EMAIL  |
+| from_name   | string           | MailerOptions::FROM_NAME   |
+| subject     | string           | MailerOptions::SUBJECT     |
+| cc          | string, string[] | MailerOptions::CC          |
+| bcc         | string, string[] | MailerOptions::BCC         |
+| replyTo     | string, string[] | MailerOptions::REPLY_TO    |
+| attachments | array            | MailerOptions::ATTACHMENTS |
+
 ### RmsPushOptions
 
 You will find below the options that you can set in a **RmsPushOptions**.
@@ -185,3 +213,14 @@ You will find below the options that you can set in a **RmsPushOptions**.
 | gcm    | array         | RmsPushOptions::GCM    |
 | fcm    | array         | RmsPushOptions::FCM    |
 | webfcm | array         | RmsPushOptions::WEBFCM |
+
+### FirebasePushOptions
+
+You will find below the options that you can set in a **FirebasePushOptions**.
+
+| Option          | Allowed Types | Constant                             |
+|-----------------|---------------|--------------------------------------|
+| title           | string        | FirebasePushOptions::TITLE           |
+| image_url       | string        | FirebasePushOptions::IMAGE_URL       |
+| data            | array         | FirebasePushOptions::DATA            |
+| web_push_config | array         | FirebasePushOptions::WEB_PUSH_CONFIG |

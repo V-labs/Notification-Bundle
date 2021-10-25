@@ -51,17 +51,21 @@ class FirebasePushNotifier implements NotifierInterface
                 $webPushConfig = $messageOption->getValueForKey(FirebasePushOptions::WEB_PUSH_CONFIG);
             }
 
-            $cloudMessage = CloudMessage::withTarget('token', $device->getToken())
-                ->withNotification(Notification::create($title ?: 'Notification', $message->getBody(), $imageUrl ?? null))
-                ->withDefaultSounds(); // Enables default notifications sounds on iOS and Android devices.
+            $cloudMessage = CloudMessage::withTarget('token', $device->getToken());
+
+            // Do this first to do not erase next default configs
+            if (isset($webPushConfig)) {
+                $cloudMessage = $cloudMessage->withWebPushConfig(WebPushConfig::fromArray($webPushConfig));
+            }
 
             if (isset($data)) {
                 $cloudMessage = $cloudMessage->withData(MessageData::fromArray($data));
             }
 
-            if (isset($webPushConfig)) {
-                $cloudMessage = $cloudMessage->withWebPushConfig(WebPushConfig::fromArray($webPushConfig));
-            }
+            $cloudMessage = $cloudMessage
+                ->withNotification(Notification::create($title ?: 'Notification', $message->getBody(), $imageUrl ?? null))
+                ->withHighestPossiblePriority()
+                ->withDefaultSounds(); // Enables default notifications sounds on iOS and Android devices.
 
             try {
                 $this->messaging->send($cloudMessage);
