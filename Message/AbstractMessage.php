@@ -3,7 +3,7 @@
 namespace Vlabs\NotificationBundle\Message;
 
 use Symfony\Component\Translation\Translator;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
 use Vlabs\NotificationBundle\Entity\Notification;
 use Vlabs\NotificationBundle\MessageOptions\MessageOptionsInterface;
