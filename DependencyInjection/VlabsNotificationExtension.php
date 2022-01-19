@@ -72,7 +72,7 @@ class VlabsNotificationExtension extends Extension
             if (!$container->has('vlabs_notification.notifier.firebase_push')) {
                 $container
                     ->register('vlabs_notification.notifier.firebase_push', FirebasePushNotifier::class)
-                    ->addArgument(new Reference('kreait_firebase.drago.messaging'))
+                    ->addArgument(new Reference('kreait_firebase.main.messaging'))
                     ->addTag('vlabs_notification.notifier')
                 ;
             }
